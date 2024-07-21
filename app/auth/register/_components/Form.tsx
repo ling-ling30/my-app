@@ -19,7 +19,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { RegisterSchema } from "../../schema";
 import { useState, useTransition } from "react";
-import { register } from "@/actions/register";
+import { register } from "@/actions/auth/register";
 import FormError from "@/components/form/FormError";
 import FormSuccess from "@/components/form/FormSuccess";
 import { useRouter } from "next/navigation";

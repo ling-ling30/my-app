@@ -2,13 +2,12 @@ import { auth, signOut } from "@/auth";
 import React from "react";
 import { Button } from "../ui/button";
 
-type Props = {};
+type Props = { children: React.ReactNode };
 
-export default async function LogOutButton({}: Props) {
+export default async function LogOutButton({ children }: Props) {
   const session = await auth();
   return (
     <div>
-      {JSON.stringify(session)}
       <form
         action={async () => {
           "use server";
@@ -18,7 +17,7 @@ export default async function LogOutButton({}: Props) {
           });
         }}
       >
-        <Button type="submit">Sign Out</Button>
+        <button type="submit">{children}</button>
       </form>
     </div>
   );

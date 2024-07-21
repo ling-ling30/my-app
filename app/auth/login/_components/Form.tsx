@@ -20,7 +20,8 @@ import { LoginSchema } from "../../schema";
 import FormSuccess from "@/components/form/FormSuccess";
 import FormError from "@/components/form/FormError";
 import { useState, useTransition } from "react";
-import { login } from "@/actions/login";
+import { login } from "@/actions/auth/login";
+import { Separator } from "@/components/ui/separator";
 
 export function LoginForm() {
   const [isPending, startTransition] = useTransition();
@@ -90,6 +91,12 @@ export function LoginForm() {
           >
             Submit
           </Button>
+          <div className="relative">
+            <Separator className="absolute" />
+            <p className="bg-white inline-block relative left-1/3 px-2 bottom-3  text-slate-400">
+              or continue with
+            </p>
+          </div>
         </form>
       </Form>
     </>
