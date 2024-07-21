@@ -19,13 +19,13 @@ export default function SidebarMenu({
   return (
     <>
       <Link href={href || ""}>
-        <div className="flex p-2 hover:bg-slate-100">
+        <div className="flex p-2 hover:bg-slate-50 hover:text-gray-700 text-gray-500">
           <div>{Icon && <Icon className={cn("size-5")} />}</div>
 
           <p
             className={cn(
-              "ml-2 text-sm opacity-0 transition-opacity  font-semibold text-gray-700 duration-150 whitespace-nowrap ",
-              showChildren && "opacity-100"
+              "ml-2 text-sm opacity-0 transition-opacity hover:text-gray-700 font-semibold duration-150 whitespace-nowrap ",
+              showChildren && "opacity-100 "
             )}
           >
             {children}

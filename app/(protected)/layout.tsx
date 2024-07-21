@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar } from "./_components/Navbar";
+import { Navbar } from "./_components/navbar/Navbar";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 
@@ -11,7 +11,7 @@ async function ProtectedLayout({ children }: Props) {
     <main className=" bg-slate-50 text-[#2f2f2f] min-h-screen text-">
       <SessionProvider session={session}>
         <Navbar session={session} />
-        <main className="pl-14">{children}</main>
+        <main className="sm:pl-14">{children}</main>
       </SessionProvider>
     </main>
   );
