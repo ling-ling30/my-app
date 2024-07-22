@@ -24,7 +24,7 @@ export default function Sidebar({}: Props) {
         isHover && "w-40"
       )}
     >
-      <header className="w-full flex justify-center gap-y-2 flex-col px-2">
+      <header className="w-full flex justify-center gap-y-1 flex-col px-2">
         <SidebarMenu showChildren={isHover} Icon={BirdIcon} href="#">
           My-app
         </SidebarMenu>
