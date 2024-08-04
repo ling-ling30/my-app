@@ -24,7 +24,6 @@ export default {
         if (!existingUser || !existingUser.password) {
           throw new CredentialsSignin("Invalid credentials!");
         }
-        console.log(existingUser);
 
         const passwordMatch = await bcrypt.compare(
           password,

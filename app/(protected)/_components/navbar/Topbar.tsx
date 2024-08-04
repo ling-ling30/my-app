@@ -35,10 +35,10 @@ export default function Topbar({}: Props) {
         <SheetContent side="left" className="sm:max-w-xs">
           <SheetTitle></SheetTitle>
           <nav className="grid gap-6 text-lg font-medium">
-            <TopbarMenu href="#" Icon={LayoutDashboardIcon}>
+            <TopbarMenu href="/dashboard" Icon={LayoutDashboardIcon}>
               Dashboard
             </TopbarMenu>
-            <TopbarMenu href="#" Icon={Package}>
+            <TopbarMenu href="/products" Icon={Package}>
               Product
             </TopbarMenu>
             <TopbarMenu href="#" Icon={UsersIcon}>

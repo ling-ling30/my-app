@@ -33,11 +33,9 @@ import Link from "next/link";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
 
-type Props = {
-  session: Session | null;
-};
+type Props = {};
 
-export const Navbar = ({ session }: Props) => {
+export const Navbar = ({}: Props) => {
   const [isExpanding, setIsExpanding] = useState<boolean>(false);
   const hoverRef = useRef(null);
   const isHover = useHover(hoverRef);

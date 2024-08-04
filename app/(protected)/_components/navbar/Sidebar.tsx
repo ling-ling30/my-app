@@ -38,7 +38,7 @@ export default function Sidebar({}: Props) {
         <SidebarMenu showChildren={isHover} Icon={HomeIcon} href="/dashboard">
           Dashboard
         </SidebarMenu>
-        <SidebarMenu showChildren={isHover} Icon={Package} href="/dashboard">
+        <SidebarMenu showChildren={isHover} Icon={Package} href="/products">
           Product
         </SidebarMenu>
       </header>
