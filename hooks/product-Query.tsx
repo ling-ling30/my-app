@@ -29,18 +29,27 @@ export const useFetchData = <T,>(key: string, url: string) => {
   return query;
 };
 
-export const usePostData = <T,>(key: string, url: string, payload: any) => {
+export const usePostData = <T,>(
+  key: string,
+  url: string,
+  callback?: () => void
+) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation<ResponseType, Error>({
-    mutationFn: async (json) => {
-      const res = await poster(url, payload);
+    mutationFn: async (json: any) => {
+      const res = await poster(url, json);
       return await res.json();
     },
     onSuccess: () => {
       toast.success("Created");
 
       queryClient.invalidateQueries({ queryKey: [key] });
+      if (callback) {
+        callback();
+      }
+
+      return;
     },
     onError: (error) => {
       toast.error("Failed to create new record!");

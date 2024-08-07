@@ -55,7 +55,7 @@ function ProductList({}: Props) {
       {data?.map((product) => (
         <Card key={product.id}>
           <Image
-            src="/placeholder.svg"
+            src={product.photos[0]?.url || ""}
             alt={product.name}
             width={300}
             height={300}

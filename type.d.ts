@@ -78,3 +78,11 @@ type Tag = {
   id: string;
   name: string;
 };
+
+type Category = {
+  id: string;
+  name: string;
+  description: string;
+  products: [Product];
+  tags: [CategoryTag];
+};

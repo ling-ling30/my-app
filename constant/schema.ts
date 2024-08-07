@@ -14,6 +14,22 @@ export const CreateProductSchema = z.object({
   categoryId: z.string(),
   vendorId: z.string(),
   photos: z.array(z.string()).optional(),
-  tags: z.array(z.string()).optional(),
-  inventory: z.array(z.string()).optional(),
+  tags: z.array(z.object({ id: z.string(), name: z.string() })).optional(),
+});
+
+export const CategorySchema = z.object({
+  name: z.string(),
+});
+
+export const VendorSchema = z.object({
+  name: z.string(),
+  address: z.string().optional(),
+  telephone: z.string().optional(),
+});
+export const CategoryTagsSchema = z.object({
+  name: z.string(),
+});
+
+export const TagSchema = z.object({
+  name: z.string(),
 });

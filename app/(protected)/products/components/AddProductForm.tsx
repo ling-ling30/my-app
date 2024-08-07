@@ -3,7 +3,7 @@ import { CreateProductSchema } from "@/constant/schema";
 import { useFetchData, usePostData } from "@/hooks/product-Query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 import * as sonner from "sonner";
 
@@ -26,14 +26,36 @@ import {
   MultiImageDropzone,
 } from "@/components/form/MultiImageDropzone";
 import { useEdgeStore } from "@/lib/edgestore";
-import { inventory_url, tag_url, vendor_url } from "@/constant/apiUrl";
+import { category_url, product_tag_url, vendor_url } from "@/constant/apiUrl";
 import { useQuery } from "@tanstack/react-query";
 import { fetcher } from "@/utils/fetcher";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { Check, ChevronsUpDown } from "lucide-react";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  CreateCategoryButton,
+  CreateProductTagButton,
+  CreateVendorButton,
+} from "@/components/sheets/CreateButton";
 
 type Props = {};
 
 export default function AddProductForm({}: Props) {
   const [isPending, startTransition] = useTransition();
+  const [openCategory, setOpenCategory] = React.useState(false);
+  const [appendedItemIds, setAppendedItemIds] = useState<any>([]);
 
   const form = useForm<z.infer<typeof CreateProductSchema>>({
     resolver: zodResolver(CreateProductSchema),
@@ -43,16 +65,30 @@ export default function AddProductForm({}: Props) {
       isLowStock: false,
     },
   });
-  const createProduct = usePostData<Product>("products", "/products", {});
+  const createProduct = usePostData<Product>("products", "/products");
 
   //upload file
   const [fileStates, setFileStates] = useState<FileState[]>([]);
   const { edgestore } = useEdgeStore();
 
   const productTags = useQuery<Tag[]>({
-    queryKey: ["productYags"],
+    queryKey: ["product-tags"],
     queryFn: async () => {
-      const res = await fetcher(tag_url);
+      const res = await fetcher(product_tag_url);
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await res.json();
+      if (data.success) {
+        return data.data;
+      }
+      throw new Error("Network response was not ok");
+    },
+  });
+  const categories = useQuery<Category[]>({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const res = await fetcher(category_url);
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
@@ -79,7 +115,11 @@ export default function AddProductForm({}: Props) {
     },
   });
 
-  console.log(productTags, vendors);
+  const { fields, append, prepend, remove } = useFieldArray({
+    control: form.control,
+    name: "tags",
+  });
+
   function onSubmit(values: z.infer<typeof CreateProductSchema>) {
     startTransition(async () => {
       let photos: { url: string }[] = [];
@@ -102,8 +142,28 @@ export default function AddProductForm({}: Props) {
         ...values,
         photos: photos,
       };
+      createProduct.mutate(input as any);
     });
   }
+
+  function onTagSelect(item: any) {
+    if (appendedItemIds.includes(item.id)) {
+      // If the item's ID is already appended, remove it
+      const foundIndex = fields.findIndex((field) => field.id === item.id);
+
+      remove(foundIndex);
+      setAppendedItemIds(appendedItemIds.filter((id: any) => id !== item.id));
+    } else {
+      // If the item's ID is not appended, append it
+      append({
+        id: item.id,
+        name: item.name,
+      });
+      setAppendedItemIds([...appendedItemIds, item.id]); // Update the appended item IDs
+    }
+  }
+  if (productTags.isLoading || vendors.isLoading || categories.isLoading)
+    return <div>Loading...</div>;
 
   return (
     <>
@@ -160,13 +220,63 @@ export default function AddProductForm({}: Props) {
             control={form.control}
             name="categoryId"
             render={({ field }) => (
-              <FormItem>
-                <div className="flex items-center space-x-2">
-                  <FormLabel>Category Id</FormLabel>
-                </div>
-                <FormControl>
-                  <Input placeholder="Category Id" {...field} />
-                </FormControl>
+              <FormItem className="flex flex-col">
+                <FormLabel>Category</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        className={cn(
+                          "w-[200px] justify-between",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value
+                          ? categories.data!.find(
+                              (category) => category.id === field.value
+                            )?.name
+                          : "Select category"}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[200px] p-0">
+                    <Command>
+                      <CommandInput placeholder="Search category..." />
+                      <CommandList>
+                        <CommandEmpty>No category found.</CommandEmpty>
+                        <CommandGroup>
+                          <CommandItem value={""} key={""} onSelect={() => {}}>
+                            <CreateCategoryButton />
+                          </CommandItem>
+                        </CommandGroup>
+                        <CommandGroup>
+                          {categories.data!.map((item) => (
+                            <CommandItem
+                              value={item.id}
+                              key={item.id}
+                              onSelect={() => {
+                                form.setValue("categoryId", item.id);
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  item.id === field.value
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                )}
+                              />
+                              {item.name}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
                 <FormMessage />
               </FormItem>
             )}
@@ -178,11 +288,55 @@ export default function AddProductForm({}: Props) {
             render={({ field }) => (
               <FormItem>
                 <div className="flex items-center space-x-2">
-                  <FormLabel>Vendor Id</FormLabel>
+                  <FormLabel>Vendor</FormLabel>
                 </div>
-                <FormControl>
-                  <Input placeholder="Vendor Id" {...field} />
-                </FormControl>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        className={cn(
+                          "w-[200px] justify-between",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value
+                          ? vendors.data!.find(
+                              (category) => category.id === field.value
+                            )?.name
+                          : "Select vendor"}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[200px] p-0">
+                    <Command>
+                      <CommandInput placeholder="Search vendor..." />
+                      <CommandList>
+                        <CommandEmpty>No vendor found.</CommandEmpty>
+                        <CommandGroup>
+                          <CommandItem value={""} key={""} onSelect={() => {}}>
+                            <CreateVendorButton />
+                          </CommandItem>
+                        </CommandGroup>
+                        <CommandGroup>
+                          {vendors.data!.map((item) => (
+                            <CommandItem
+                              value={item.id}
+                              key={item.id}
+                              onSelect={() => {
+                                form.setValue("vendorId", item.id);
+                              }}
+                            >
+                              {item.name}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
                 <FormMessage />
               </FormItem>
             )}
@@ -196,13 +350,70 @@ export default function AddProductForm({}: Props) {
                 <div className="flex items-center space-x-2">
                   <FormLabel>Tags</FormLabel>
                 </div>
-                <FormControl>
-                  <Input placeholder="Tags" {...field} />
-                </FormControl>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        className={cn(
+                          "w-[200px] justify-between",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        Select Tags
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[200px] p-0">
+                    <Command>
+                      <CommandInput placeholder="Search category..." />
+                      <CommandList>
+                        <CommandEmpty>No category found.</CommandEmpty>
+                        <CommandGroup>
+                          <CommandItem value={""} key={""} onSelect={() => {}}>
+                            <CreateProductTagButton />
+                          </CommandItem>
+                        </CommandGroup>
+                        <CommandGroup>
+                          {productTags.data!.map((item) => (
+                            <CommandItem
+                              value={item.id}
+                              key={item.id}
+                              onSelect={() => onTagSelect(item)}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  appendedItemIds.includes(item.id)
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                )}
+                              />
+                              {item.name}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
                 <FormMessage />
               </FormItem>
             )}
           />
+          <section className="flex space-x-2">
+            {fields.map((field, index) => (
+              <div
+                className="bg-accent px-4 py-2 rounded-md flex items-center justify-between"
+                key={field.id}
+              >
+                <p className="mr-2 ">{field.name}</p>
+                <span className="text-xs ">X</span>
+              </div>
+            ))}
+          </section>
 
           <FormField
             control={form.control}
@@ -344,22 +555,6 @@ export default function AddProductForm({}: Props) {
                 </div>
                 <FormControl>
                   <Switch checked={field.value} onChange={field.onChange} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="inventory"
-            render={({ field }) => (
-              <FormItem>
-                <div className="flex items-center space-x-2">
-                  <FormLabel>Inventory</FormLabel>
-                </div>
-                <FormControl>
-                  <Input placeholder="Inventory" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

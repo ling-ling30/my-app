@@ -7,6 +7,9 @@ const nextConfig = {
     AUTH_TRUST_HOST: process.env.AUTH_TRUST_HOST, // pulls from .env file
     DATABASE_URL: process.env.DATABASE_URL, // pulls from .env file
   },
+  images: {
+    domains: ["files.edgestore.dev"],
+  },
 };
 
 export default nextConfig;
