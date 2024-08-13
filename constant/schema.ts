@@ -33,3 +33,8 @@ export const CategoryTagsSchema = z.object({
 export const TagSchema = z.object({
   name: z.string(),
 });
+
+export const WarehouseSchema = z.object({
+  name: z.string(),
+  description: z.string().optional(),
+});
