@@ -24,6 +24,17 @@ type Product = {
   salesOrderItems: SalesOrderItem[];
 };
 
+type ProductTagBridge = {
+  productId: string;
+  productTagId: string;
+  productTag: ProductTag;
+};
+
+type ProductTag = {
+  id: string;
+  name: string;
+};
+
 type Inventory = {
   id: string;
   productId: string;
