@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/sheet";
 import { z } from "zod";
 import { usePostData } from "@/hooks/product-Query";
-import { category_url, vendor_url } from "@/constant/apiUrl";
+import { vendor_url } from "@/constant/apiUrl";
 import { VendorSchema } from "@/constant/schema";
 import { useNewVendor } from "./use-vendor-store";
 import VendorForm from "./VendorForm";
