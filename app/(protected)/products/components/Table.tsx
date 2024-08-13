@@ -43,793 +43,22 @@ import { cn } from "@/lib/utils";
 
 import { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
-
-// const data: Product[] = [
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "1GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 1000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "2T Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 2000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "3GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 3200,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "4GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 4000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "5GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 5000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "1GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 1000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     type: {
-//       id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//       name: "Inova",
-//     },
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "2T Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 2000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "3GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 3200,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "4GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 4000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "5GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 5000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "1GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 1000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "2T Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 2000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "3GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 3200,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "4GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 4000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "5GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 5000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "1GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 1000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "2T Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 2000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "3GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 3200,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "4GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 4000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "5GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 5000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "1GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 1000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "2T Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 2000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "3GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 3200,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "4GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 4000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "5GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 5000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "1GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 1000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "2T Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 2000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "3GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 3200,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "4GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 4000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-//   {
-//     id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//     name: "5GT Timing belt pulley kit 60 teeth 20 teeth with 200mm belt width 10m - 20T8 ~ 60T8",
-//     sub_category_id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//     type_id: "ec2183f0-df95-48cb-8234-6e6414636e29",
-//     price: "95000",
-//     stock: 5000,
-//     min_order_quantity: 100,
-//     min_order_price: "90000",
-//     sub_category: {
-//       id: "785f0d81-68c3-40a6-a168-d46bbd9d949a",
-//       name: "Timing Belt",
-//       main_category_id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//       main_category: {
-//         id: "e8e69c82-cc6b-4e56-8d1c-ec7dd146778a",
-//         name: "Sistem Mesin",
-//       },
-//     },
-//     photos: [
-//       {
-//         id: "870456a3-8ba8-4768-83a1-7dfe06821e11",
-//         url: "https://files.edgestore.dev/33ji2re52mg7uy65/publicFiles/_public/bd47bed3-e373-486a-a1ec-321e5fd48efd.jpg",
-//         product_id: "012fe2ed-a00a-4534-ab62-dbfe1bdaca8f",
-//       },
-//     ],
-//   },
-// ];
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { useQuery } from "@tanstack/react-query";
+import { fetcher } from "@/utils/fetcher";
+import { category_url, product_tag_url, vendor_url } from "@/constant/apiUrl";
 
 export const columns: ColumnDef<Product>[] = [
   {
@@ -878,11 +107,23 @@ export const columns: ColumnDef<Product>[] = [
   },
   {
     accessorKey: "name",
-    header: "Nama",
+    header: "Name",
     cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
   },
   {
-    accessorKey: "sub_category.name",
+    accessorKey: "SKU",
+    header: "SKU",
+    cell: ({ row }) => <div className="capitalize">{row.getValue("SKU")}</div>,
+  },
+  {
+    accessorKey: "description",
+    header: "Description",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("description")}</div>
+    ),
+  },
+  {
+    accessorKey: "category.name",
     id: "Kategori",
     header: ({ column }) => {
       return (
@@ -897,70 +138,100 @@ export const columns: ColumnDef<Product>[] = [
     },
   },
   {
-    accessorKey: "type.name",
-    id: "Tipe Mobil",
+    accessorKey: "vendor.name",
+    id: "Vendor",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Mobil
+          Vendor
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
   },
   {
-    accessorKey: "min_order_quantity",
-    id: "Minimal Order",
+    accessorKey: "tags",
+    id: "Tags",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Min Order
+          Tag
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
+    cell: ({ row }) => (
+      <div className="lowercase">
+        {row.original.tags.map((item, index) => (
+          <div
+            className="bg-accent px-4 py-2 rounded-md flex items-center justify-between"
+            key={item.productId + item.productTagId}
+          >
+            <p className="mr-2 ">{item.productTag.name}</p>
+          </div>
+        ))}
+      </div>
+    ),
   },
   {
-    accessorKey: "min_order_price",
-    id: "Harga Eceran",
-    header: "Harga Eceran",
-  },
-  {
-    accessorKey: "stock",
+    accessorKey: "minBulkQuantity",
+    id: "Min. Bulk Order",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Stok
+          Min Bulk Order
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("stock")}</div>,
+    cell: ({ row }) => (
+      <div className="lowercase">{row.original.minBulkQuantity || "-"}</div>
+    ),
   },
   {
-    accessorKey: "price",
-    header: () => <div className="text-right">Harga</div>,
-    cell: ({ row }) => {
-      const price = parseFloat(row.getValue("price"));
+    accessorKey: "BulkPrice",
+    id: "Bulk Price",
+    header: "Bulk Price",
+    cell: ({ row }) => (
+      <div className="lowercase">{row.original.bulkPrice || "-"}</div>
+    ),
+  },
+  {
+    accessorKey: "minStockLevel",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Minimal stock level
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="lowercase">{row.original.minStockLevel || "-"}</div>
+    ),
+  },
+  {
+    accessorKey: "isActive",
+    header: () => <div className="text-right">Active</div>,
+    cell: ({ row }) => (
+      <div className="capitalize">
+        {row.getValue("isActive") ? "Yes" : "No"}
+      </div>
+    ),
+  },
 
-      // Format the price as a dollar price
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "IDR",
-      }).format(price);
-
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
-  },
   {
     id: "actions",
     enableHiding: false,
@@ -994,17 +265,56 @@ export const columns: ColumnDef<Product>[] = [
 
 export function DataTable({ data }: { data: Product[] }) {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [category, setCategory] = useState<SubCategory[]>([]);
-  const [type, setType] = useState<Type[]>([]);
+
+  const productTags = useQuery<Tag[]>({
+    queryKey: ["product-tags"],
+    queryFn: async () => {
+      const res = await fetcher(product_tag_url);
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await res.json();
+      if (data.success) {
+        return data.data;
+      }
+      throw new Error("Network response was not ok");
+    },
+  });
+  const categories = useQuery<Category[]>({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const res = await fetcher(category_url);
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await res.json();
+      if (data.success) {
+        return data.data;
+      }
+      throw new Error("Network response was not ok");
+    },
+  });
+
+  const vendors = useQuery<Vendor[]>({
+    queryKey: ["vendors"],
+    queryFn: async () => {
+      const res = await fetcher(vendor_url);
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await res.json();
+      if (data.success) {
+        return data.data;
+      }
+      throw new Error("Network response was not ok");
+    },
+  });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [openCategory, setOpenCategory] = useState(false);
   const [openType, setOpenType] = useState(false);
 
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     Kategori: false,
-    "Tipe Mobil": false,
-    "Minimal Order": false,
-    "Harga Eceran": false,
     Photo: false,
   });
 
@@ -1037,7 +347,7 @@ export function DataTable({ data }: { data: Product[] }) {
   const filterCategory = table
     .getColumn("Kategori")
     ?.getFilterValue() as string;
-  const filterType = table.getColumn("Tipe Mobil")?.getFilterValue() as string;
+  const filterVendor = table.getColumn("Vendor")?.getFilterValue() as string;
   return (
     <div className="w-full">
       <div className="flex items-center py-4 flex-wrap">
@@ -1049,7 +359,7 @@ export function DataTable({ data }: { data: Product[] }) {
           }
           className="max-w-sm"
         />
-        {category && (
+        {categories.data && (
           <Popover
             open={openCategory}
             onOpenChange={setOpenCategory}
@@ -1065,7 +375,7 @@ export function DataTable({ data }: { data: Product[] }) {
                 )}
               >
                 {filterCategory
-                  ? category.find(
+                  ? categories.data.find(
                       (account) => account.name === filterCategory!
                     )!.name
                   : "Kategori"}
@@ -1080,7 +390,7 @@ export function DataTable({ data }: { data: Product[] }) {
                 </CommandEmpty>
                 <CommandGroup className=" max-h-80 overflow-auto">
                   <CommandList>
-                    {category.map((account) => (
+                    {categories.data.map((account) => (
                       <CommandItem
                         value={account.name}
                         key={account.id}
@@ -1097,21 +407,27 @@ export function DataTable({ data }: { data: Product[] }) {
               </Command>
             </PopoverContent>
           </Popover>
-        )}{" "}
-        {type && (
-          <Popover open={openType} onOpenChange={setOpenType} modal={true}>
+        )}
+        {vendors.data && (
+          <Popover
+            open={openCategory}
+            onOpenChange={setOpenCategory}
+            modal={true}
+          >
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
                 role="combobox"
                 className={cn(
                   "w-[180px] justify-between",
-                  filterType && "text-muted-foreground"
+                  filterVendor && "text-muted-foreground"
                 )}
               >
-                {filterType
-                  ? type.find((account) => account.name === filterType!)!.name
-                  : "Tipe Mobil"}
+                {filterVendor
+                  ? vendors.data.find(
+                      (account) => account.name === filterVendor!
+                    )!.name
+                  : "Kategori"}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
@@ -1123,16 +439,16 @@ export function DataTable({ data }: { data: Product[] }) {
                 </CommandEmpty>
                 <CommandGroup className=" max-h-80 overflow-auto">
                   <CommandList>
-                    {type.map((account) => (
+                    {vendors.data.map((vendor) => (
                       <CommandItem
-                        value={account.name}
-                        key={account.id}
+                        value={vendor.name}
+                        key={vendor.id}
                         onSelect={(value) => {
-                          table.getColumn("Tipe Mobil")?.setFilterValue(value);
-                          setOpenType(false);
+                          table.getColumn("vendor.name")?.setFilterValue(value);
+                          setOpenCategory(false);
                         }}
                       >
-                        {`${account.name}`}
+                        {`${vendor.name}`}
                       </CommandItem>
                     ))}
                   </CommandList>

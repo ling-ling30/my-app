@@ -7,40 +7,9 @@ import Image from "next/image";
 import { useFetchData } from "@/hooks/product-Query";
 import { PlusCircleIcon, PlusIcon } from "lucide-react";
 
-type Props = {};
+type Props = { data: Product[] };
 
-function ProductList({}: Props) {
-  const { isError, isLoading, data } = useFetchData<Product[]>(
-    "products",
-    "/products"
-  );
-  console.log(data);
-  if (isError) {
-    return <div>Error</div>;
-  }
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  //   const products = [
-  //     {
-  //       id: 1,
-  //       name: "Product 1",
-  //       description: "This is a product description",
-  //       price: 100,
-  //     },
-  //     {
-  //       id: 2,
-  //       name: "Product 2",
-  //       description: "This is a product description",
-  //       price: 200,
-  //     },
-  //     {
-  //       id: 3,
-  //       name: "Product 3",
-  //       description: "This is a product description",
-  //       price: 300,
-  //     },
-  //   ];
+function ProductList({ data }: Props) {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       <Card>
