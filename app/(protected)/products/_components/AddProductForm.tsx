@@ -76,7 +76,7 @@ export default function AddProductForm({}: Props) {
       isLowStock: false,
     },
   });
-  const { mutate: createProduct } = usePostData<Product>(
+  const { mutate: createProduct } = usePostData<Product, Error, any>(
     PRODUCT_QUERY_KEY,
     product_url
   );
