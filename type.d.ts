@@ -24,6 +24,11 @@ type Product = {
   salesOrderItems: SalesOrderItem[];
 };
 
+type Photo = {
+  id: string;
+  url: string;
+};
+
 type ProductTagBridge = {
   productId: string;
   productTagId: string;
