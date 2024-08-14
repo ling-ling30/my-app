@@ -1,5 +1,5 @@
 import React from "react";
-import AddProductForm from "../components/AddProductForm";
+import AddProductForm from "../_components/AddProductForm";
 import {
   Card,
   CardContent,

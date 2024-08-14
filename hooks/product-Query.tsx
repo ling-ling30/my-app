@@ -29,14 +29,14 @@ export const useFetchData = <T,>(key: string, url: string) => {
   return query;
 };
 
-export const usePostData = <T,>(
+export const usePostData = <T, TError, TVariable>(
   key: string,
   url: string,
   callback?: () => void
 ) => {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation<ResponseType, Error>({
+  const mutation = useMutation<ResponseType, Error, TVariable>({
     mutationFn: async (json: any) => {
       const res = await poster(url, json);
       return await res.json();
