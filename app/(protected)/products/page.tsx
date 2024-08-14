@@ -2,13 +2,15 @@
 import ProductList from "./components/ProductList";
 import { useFetchData } from "@/hooks/product-Query";
 import { DataTable } from "./components/Table";
+import { product_url } from "@/constant/apiUrl";
+import { PRODUCT_QUERY_KEY } from "@/constant/reactQuery";
 
 type Props = {};
 
 export default function Page({}: Props) {
   const { isError, isLoading, data } = useFetchData<Product[]>(
-    "products",
-    "/products"
+    PRODUCT_QUERY_KEY,
+    product_url
   );
   if (isError) {
     return <div>Error</div>;
@@ -20,7 +22,7 @@ export default function Page({}: Props) {
     <main className="p-5">
       {data && (
         <>
-          <ProductList data={data} />
+          {/* <ProductList data={data} /> */}
           <DataTable data={data} />
         </>
       )}

@@ -16,7 +16,9 @@ import {
   ArrowUpDown,
   ChevronDown,
   ChevronsUpDown,
+  EyeIcon,
   MoreHorizontal,
+  PlusIcon,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -59,6 +61,12 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { fetcher } from "@/utils/fetcher";
 import { category_url, product_tag_url, vendor_url } from "@/constant/apiUrl";
+import Link from "next/link";
+import {
+  CATEGORY_QUERY_KEY,
+  PRODUCT_TAG_QUERY_KEY,
+  VENDOR_QUERY_KEY,
+} from "@/constant/reactQuery";
 
 export const columns: ColumnDef<Product>[] = [
   {
@@ -108,7 +116,17 @@ export const columns: ColumnDef<Product>[] = [
   {
     accessorKey: "name",
     header: "Name",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
+    cell: ({ row }) => (
+      <div className="">
+        <a>
+          <Link href={`/products/${row.original.id}`}>
+            <span className="sr-only">Open product</span>
+            <EyeIcon className="h-4 w-4" />
+          </Link>
+        </a>
+        {row.getValue("name")}
+      </div>
+    ),
   },
   {
     accessorKey: "SKU",
@@ -267,7 +285,7 @@ export function DataTable({ data }: { data: Product[] }) {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const productTags = useQuery<Tag[]>({
-    queryKey: ["product-tags"],
+    queryKey: [PRODUCT_TAG_QUERY_KEY],
     queryFn: async () => {
       const res = await fetcher(product_tag_url);
       if (!res.ok) {
@@ -281,7 +299,7 @@ export function DataTable({ data }: { data: Product[] }) {
     },
   });
   const categories = useQuery<Category[]>({
-    queryKey: ["categories"],
+    queryKey: [CATEGORY_QUERY_KEY],
     queryFn: async () => {
       const res = await fetcher(category_url);
       if (!res.ok) {
@@ -296,7 +314,7 @@ export function DataTable({ data }: { data: Product[] }) {
   });
 
   const vendors = useQuery<Vendor[]>({
-    queryKey: ["vendors"],
+    queryKey: [VENDOR_QUERY_KEY],
     queryFn: async () => {
       const res = await fetcher(vendor_url);
       if (!res.ok) {
@@ -348,8 +366,14 @@ export function DataTable({ data }: { data: Product[] }) {
     .getColumn("Kategori")
     ?.getFilterValue() as string;
   const filterVendor = table.getColumn("Vendor")?.getFilterValue() as string;
+
   return (
     <div className="w-full">
+      <Button size="lg" variant="outline">
+        <Link href="/products/create" className="flex items-center">
+          <PlusIcon className="mr-2 size-6" /> Add Product
+        </Link>
+      </Button>
       <div className="flex items-center py-4 flex-wrap">
         <Input
           placeholder="Filter Nama..."
@@ -457,6 +481,7 @@ export function DataTable({ data }: { data: Product[] }) {
             </PopoverContent>
           </Popover>
         )}
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">

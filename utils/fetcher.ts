@@ -12,7 +12,7 @@ interface TokenCache {
 let tokenCache: TokenCache | null = null;
 let tokenPromise: Promise<string> | null = null;
 
-const getToken = async (): Promise<string> => {
+export const getToken = async (): Promise<string> => {
   const now = Date.now();
   if (tokenCache && now < tokenCache.expiresAt) {
     return tokenCache.token;

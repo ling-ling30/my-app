@@ -26,7 +26,12 @@ import {
   MultiImageDropzone,
 } from "@/components/form/MultiImageDropzone";
 import { useEdgeStore } from "@/lib/edgestore";
-import { category_url, product_tag_url, vendor_url } from "@/constant/apiUrl";
+import {
+  category_url,
+  product_tag_url,
+  product_url,
+  vendor_url,
+} from "@/constant/apiUrl";
 import { useQuery } from "@tanstack/react-query";
 import { fetcher } from "@/utils/fetcher";
 import {
@@ -49,6 +54,12 @@ import {
   CreateProductTagButton,
   CreateVendorButton,
 } from "@/components/sheets/CreateButton";
+import {
+  CATEGORY_QUERY_KEY,
+  PRODUCT_QUERY_KEY,
+  PRODUCT_TAG_QUERY_KEY,
+  VENDOR_QUERY_KEY,
+} from "@/constant/reactQuery";
 
 type Props = {};
 
@@ -65,14 +76,17 @@ export default function AddProductForm({}: Props) {
       isLowStock: false,
     },
   });
-  const createProduct = usePostData<Product>("products", "/products");
+  const { mutate: createProduct } = usePostData<Product>(
+    PRODUCT_QUERY_KEY,
+    product_url
+  );
 
   //upload file
   const [fileStates, setFileStates] = useState<FileState[]>([]);
   const { edgestore } = useEdgeStore();
 
   const productTags = useQuery<Tag[]>({
-    queryKey: ["product-tags"],
+    queryKey: [PRODUCT_TAG_QUERY_KEY],
     queryFn: async () => {
       const res = await fetcher(product_tag_url);
       if (!res.ok) {
@@ -85,8 +99,9 @@ export default function AddProductForm({}: Props) {
       throw new Error("Network response was not ok");
     },
   });
+
   const categories = useQuery<Category[]>({
-    queryKey: ["categories"],
+    queryKey: [CATEGORY_QUERY_KEY],
     queryFn: async () => {
       const res = await fetcher(category_url);
       if (!res.ok) {
@@ -101,7 +116,7 @@ export default function AddProductForm({}: Props) {
   });
 
   const vendors = useQuery<Vendor[]>({
-    queryKey: ["vendors"],
+    queryKey: [VENDOR_QUERY_KEY],
     queryFn: async () => {
       const res = await fetcher(vendor_url);
       if (!res.ok) {
@@ -142,7 +157,7 @@ export default function AddProductForm({}: Props) {
         ...values,
         photos: photos,
       };
-      createProduct.mutate(input as any);
+      createProduct(input);
     });
   }
 
