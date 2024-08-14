@@ -24,8 +24,8 @@ export default function SidebarMenu({
 
           <p
             className={cn(
-              "ml-2 text-sm opacity-0 transition-opacity hover:text-gray-700 font-semibold duration-150 whitespace-nowrap ",
-              showChildren && "opacity-100 "
+              "ml-2 text-sm opacity-0 hidden transition-opacity hover:text-gray-700 font-semibold duration-150 whitespace-nowrap ",
+              showChildren && "opacity-100 block"
             )}
           >
             {children}
