@@ -38,3 +38,12 @@ export const WarehouseSchema = z.object({
   name: z.string(),
   description: z.string().optional(),
 });
+
+export const CreateInventorySchema = z.object({
+  productId: z.string(),
+  warehouseId: z.string(),
+  quantity: z.string(),
+  location: z.string().optional(),
+  expiryDate: z.string().optional(),
+  note: z.string().optional(),
+});

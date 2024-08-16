@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { TrashIcon } from "lucide-react";
 import { WarehouseSchema } from "@/constant/schema";
+import { Textarea } from "@/components/ui/textarea";
 
 type FormValues = z.input<typeof WarehouseSchema>;
 
@@ -56,11 +57,7 @@ export default function WarehouseForm({
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input
-                  {...field}
-                  disabled={disabled}
-                  placeholder="e.g. Gearbox, Timisbelt"
-                />
+                <Input {...field} disabled={disabled} placeholder="Name" />
               </FormControl>
             </FormItem>
           )}
@@ -72,16 +69,16 @@ export default function WarehouseForm({
             <FormItem>
               <FormLabel>Desciption</FormLabel>
               <FormControl>
-                <Input
+                <Textarea
                   {...field}
                   disabled={disabled}
-                  placeholder="e.g. Jln. Merdeka, Jakarta Selatan"
+                  placeholder="Description e.g. address, phone number"
                 />
               </FormControl>
             </FormItem>
           )}
         />
-        \
+
         <Button className="w-full" disabled={disabled}>
           {id ? "Save Changes" : "Create Warehouse"}
         </Button>

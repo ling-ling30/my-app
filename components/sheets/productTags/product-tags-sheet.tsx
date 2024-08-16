@@ -8,17 +8,18 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { z } from "zod";
-import { usePostData } from "@/hooks/product-Query";
+import { usePostData } from "@/hooks/ClientFetcher";
 import { product_tag_url } from "@/constant/apiUrl";
 import { TagSchema } from "@/constant/schema";
 import VendorForm from "./ProductTagsForm";
 import { useNewProductTag } from "./use-product-tag-store";
 import ProductTagForm from "./ProductTagsForm";
+import { PRODUCT_TAG_QUERY_KEY } from "@/constant/reactQuery";
 
 export const NewProductTagSheet = () => {
   const { isOpen, onClose } = useNewProductTag();
 
-  const mutation = usePostData("product-tags", product_tag_url, onClose);
+  const mutation = usePostData(PRODUCT_TAG_QUERY_KEY, product_tag_url, onClose);
   const onSubmit = (values: z.infer<typeof TagSchema>) => {
     const result = mutation.mutate(values as any);
   };

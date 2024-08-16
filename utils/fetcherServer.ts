@@ -53,7 +53,7 @@ export const fetcherServer = async (url: string, cache?: boolean) => {
         },
         cache: cache ? "force-cache" : "no-store",
         credentials: "include",
-        next: { revalidate: 10 },
+        next: { revalidate: 0 },
       });
     return (await request()).json();
   } catch (error) {

@@ -1,6 +1,6 @@
 "use client";
 import { CreateProductSchema } from "@/constant/schema";
-import { useFetchData, usePostData } from "@/hooks/product-Query";
+import { useFetchData, usePostData } from "@/hooks/ClientFetcher";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState, useTransition } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -60,12 +60,16 @@ import {
   PRODUCT_TAG_QUERY_KEY,
   VENDOR_QUERY_KEY,
 } from "@/constant/reactQuery";
+import {
+  useFetchCategories,
+  useFetchProductTags,
+  useFetchVendors,
+} from "@/hooks/getData";
 
 type Props = {};
 
 export default function AddProductForm({}: Props) {
   const [isPending, startTransition] = useTransition();
-  const [openCategory, setOpenCategory] = React.useState(false);
   const [appendedItemIds, setAppendedItemIds] = useState<any>([]);
 
   const form = useForm<z.infer<typeof CreateProductSchema>>({
@@ -85,50 +89,11 @@ export default function AddProductForm({}: Props) {
   const [fileStates, setFileStates] = useState<FileState[]>([]);
   const { edgestore } = useEdgeStore();
 
-  const productTags = useQuery<Tag[]>({
-    queryKey: [PRODUCT_TAG_QUERY_KEY],
-    queryFn: async () => {
-      const res = await fetcher(product_tag_url);
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await res.json();
-      if (data.success) {
-        return data.data;
-      }
-      throw new Error("Network response was not ok");
-    },
-  });
+  const productTags = useFetchProductTags();
 
-  const categories = useQuery<Category[]>({
-    queryKey: [CATEGORY_QUERY_KEY],
-    queryFn: async () => {
-      const res = await fetcher(category_url);
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await res.json();
-      if (data.success) {
-        return data.data;
-      }
-      throw new Error("Network response was not ok");
-    },
-  });
+  const categories = useFetchCategories();
 
-  const vendors = useQuery<Vendor[]>({
-    queryKey: [VENDOR_QUERY_KEY],
-    queryFn: async () => {
-      const res = await fetcher(vendor_url);
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await res.json();
-      if (data.success) {
-        return data.data;
-      }
-      throw new Error("Network response was not ok");
-    },
-  });
+  const vendors = useFetchVendors();
 
   const { fields, append, prepend, remove } = useFieldArray({
     control: form.control,

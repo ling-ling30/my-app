@@ -8,7 +8,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { z } from "zod";
-import { usePostData } from "@/hooks/product-Query";
+import { usePostData } from "@/hooks/ClientFetcher";
 import { vendor_url } from "@/constant/apiUrl";
 import { VendorSchema } from "@/constant/schema";
 import { useNewVendor } from "./use-vendor-store";

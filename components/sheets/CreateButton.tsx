@@ -4,6 +4,8 @@ import { Button } from "../ui/button";
 import { useNewProductTag } from "./productTags/use-product-tag-store";
 import { useNewVendor } from "./vendor/use-vendor-store";
 import { useNewCategory } from "./category/use-category-store";
+import { PlusIcon } from "lucide-react";
+import { useNewWarehouse } from "./warehouse/use-warehouse-store";
 
 type Props = {};
 
@@ -30,6 +32,16 @@ export function CreateProductTagButton({}: Props) {
   return (
     <Button size={"sm"} variant={"outline"} onClick={onOpen}>
       Create Product Tag
+    </Button>
+  );
+}
+
+export function CreateWarehouseButton({}: Props) {
+  const { isOpen, onOpen } = useNewWarehouse();
+  return (
+    <Button size={"sm"} variant={"outline"} onClick={onOpen}>
+      <PlusIcon className="mr-2" />
+      Create Warehouse
     </Button>
   );
 }

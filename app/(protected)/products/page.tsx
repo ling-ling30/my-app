@@ -1,6 +1,6 @@
 "use client";
 import ProductList from "./_components/ProductList";
-import { useFetchData } from "@/hooks/product-Query";
+import { useFetchData } from "@/hooks/ClientFetcher";
 import { DataTable } from "./_components/Table";
 import { product_url } from "@/constant/apiUrl";
 import { PRODUCT_QUERY_KEY } from "@/constant/reactQuery";

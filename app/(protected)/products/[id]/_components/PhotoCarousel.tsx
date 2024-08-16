@@ -11,11 +11,13 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 type Props = {
   data: Photo[];
+  className?: string;
 };
 
-export default function PhotoCarousel({ data }: Props) {
+export default function PhotoCarousel({ data, className }: Props) {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
@@ -35,9 +37,14 @@ export default function PhotoCarousel({ data }: Props) {
 
   return (
     <>
-      <div className="p-4">
+      <div
+        className={cn(
+          "p-4 flex justify-center flex-col items-center",
+          className
+        )}
+      >
         <Carousel setApi={setApi} className="w-full max-w-xs relative">
-          <CarouselContent>
+          <CarouselContent className="flex justify-center">
             {data.map((_, index) => (
               <CarouselItem key={index}>
                 <Card>

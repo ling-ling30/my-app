@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import { useFetchData } from "@/hooks/product-Query";
+import { useFetchData } from "@/hooks/ClientFetcher";
 import { PlusCircleIcon, PlusIcon } from "lucide-react";
 
 type Props = { data: Product[] };

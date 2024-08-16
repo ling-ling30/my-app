@@ -17,6 +17,7 @@ import {
   ChevronDown,
   ChevronsUpDown,
   EyeIcon,
+  Loader2,
   MoreHorizontal,
   PlusIcon,
 } from "lucide-react";
@@ -58,17 +59,12 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { useQuery } from "@tanstack/react-query";
-import { fetcher } from "@/utils/fetcher";
-import { category_url, product_tag_url, vendor_url } from "@/constant/apiUrl";
-import Link from "next/link";
-import {
-  CATEGORY_QUERY_KEY,
-  PRODUCT_TAG_QUERY_KEY,
-  VENDOR_QUERY_KEY,
-} from "@/constant/reactQuery";
 
-export const columns: ColumnDef<Product>[] = [
+import Link from "next/link";
+
+import { useFetchWarehouses } from "@/hooks/getData";
+
+export const columns: ColumnDef<InventoryDetail>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -91,163 +87,76 @@ export const columns: ColumnDef<Product>[] = [
     enableSorting: false,
     enableHiding: false,
   },
+
   {
-    accessorKey: "photo",
-    id: "Photo",
+    accessorKey: "location",
+    id: "Location",
     header: ({ column }) => {
-      return <div>Photo</div>;
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Location
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "inventory.warehouse.name",
+    id: "Warehouse",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Warehouse
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
     },
     cell: ({ row }) => (
-      <div className="lowercase">
-        {row.original.photos?.map((item) => {
-          return (
-            <Image
-              key={item.id}
-              src={item.url}
-              height={100}
-              width={100}
-              alt={row.original.name}
-            />
-          );
-        })}
-      </div>
+      <div className="uppercase">{row.original.inventory.warehouse.name}</div>
     ),
   },
   {
-    accessorKey: "name",
-    header: "Name",
-    cell: ({ row }) => (
-      <div className="">
-        <a>
-          <Link href={`/products/${row.original.id}`}>
-            <span className="sr-only">Open product</span>
-            <EyeIcon className="h-4 w-4" />
-          </Link>
-        </a>
-        {row.getValue("name")}
-      </div>
-    ),
+    accessorKey: "quantity",
+    id: "Quantity",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Quatity
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
-    accessorKey: "SKU",
-    header: "SKU",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("SKU")}</div>,
+    accessorKey: "expiryDate",
+    id: "Expiry Date",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Expiry Date
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "description",
-    header: "Description",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("description")}</div>
-    ),
-  },
-  {
-    accessorKey: "category.name",
-    id: "Kategori",
+    id: "Description",
     header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Kategori
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
+      return "Description";
     },
-  },
-  {
-    accessorKey: "vendor.name",
-    id: "Vendor",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Vendor
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: "tags",
-    id: "Tags",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Tag
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="lowercase">
-        {row.original.tags.map((item, index) => (
-          <div
-            className="bg-accent px-4 py-2 rounded-md flex items-center justify-between"
-            key={item.productId + item.productTagId}
-          >
-            <p className="mr-2 ">{item.productTag.name}</p>
-          </div>
-        ))}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "minBulkQuantity",
-    id: "Min. Bulk Order",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Min Bulk Order
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="lowercase">{row.original.minBulkQuantity || "-"}</div>
-    ),
-  },
-  {
-    accessorKey: "BulkPrice",
-    id: "Bulk Price",
-    header: "Bulk Price",
-    cell: ({ row }) => (
-      <div className="lowercase">{row.original.bulkPrice || "-"}</div>
-    ),
-  },
-  {
-    accessorKey: "minStockLevel",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Minimal stock level
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="lowercase">{row.original.minStockLevel || "-"}</div>
-    ),
-  },
-  {
-    accessorKey: "isActive",
-    header: () => <div className="text-right">Active</div>,
-    cell: ({ row }) => (
-      <div className="capitalize">
-        {row.getValue("isActive") ? "Yes" : "No"}
-      </div>
-    ),
   },
 
   {
@@ -281,55 +190,12 @@ export const columns: ColumnDef<Product>[] = [
   },
 ];
 
-export function DataTable({ data }: { data: Product[] }) {
+export function DataTable({ data }: { data: InventoryDetail[] }) {
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  const productTags = useQuery<Tag[]>({
-    queryKey: [PRODUCT_TAG_QUERY_KEY],
-    queryFn: async () => {
-      const res = await fetcher(product_tag_url);
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await res.json();
-      if (data.success) {
-        return data.data;
-      }
-      throw new Error("Network response was not ok");
-    },
-  });
-  const categories = useQuery<Category[]>({
-    queryKey: [CATEGORY_QUERY_KEY],
-    queryFn: async () => {
-      const res = await fetcher(category_url);
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await res.json();
-      if (data.success) {
-        return data.data;
-      }
-      throw new Error("Network response was not ok");
-    },
-  });
-
-  const vendors = useQuery<Vendor[]>({
-    queryKey: [VENDOR_QUERY_KEY],
-    queryFn: async () => {
-      const res = await fetcher(vendor_url);
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await res.json();
-      if (data.success) {
-        return data.data;
-      }
-      throw new Error("Network response was not ok");
-    },
-  });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [openCategory, setOpenCategory] = useState(false);
-  const [openTag, setOpenTag] = useState(false);
+
+  const [openWarehouse, setOpenWarehouse] = useState(false);
 
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     Kategori: false,
@@ -358,37 +224,25 @@ export function DataTable({ data }: { data: Product[] }) {
     },
   });
 
+  const warehouses = useFetchWarehouses();
+
   const selectedItemIds = table.getSelectedRowModel().rows.map((item) => {
     return item.original.id;
   });
 
-  const filterCategory = table
-    .getColumn("Kategori")
+  const filterWarehouse = table
+    .getColumn("warehouseId")
     ?.getFilterValue() as string;
-  const filterVendor = table.getColumn("Vendor")?.getFilterValue() as string;
-
-  const filterTag = table.getColumn("Tag")?.getFilterValue() as string;
 
   return (
     <div className="w-full">
-      <Button size="lg" variant="outline">
-        <Link href="/products/create" className="flex items-center">
-          <PlusIcon className="mr-2 size-6" /> Add Product
-        </Link>
-      </Button>
       <div className="flex items-center py-4 flex-wrap">
-        <Input
-          placeholder="Filter Nama..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-        {categories.data && (
+        {warehouses.isLoading ? (
+          <Loader2 className="animate-spin" />
+        ) : (
           <Popover
-            open={openCategory}
-            onOpenChange={setOpenCategory}
+            open={openWarehouse}
+            onOpenChange={setOpenWarehouse}
             modal={true}
           >
             <PopoverTrigger asChild>
@@ -397,14 +251,14 @@ export function DataTable({ data }: { data: Product[] }) {
                 role="combobox"
                 className={cn(
                   "w-[180px] justify-between",
-                  filterCategory && "text-muted-foreground"
+                  filterWarehouse && "text-muted-foreground"
                 )}
               >
-                {filterCategory
-                  ? categories.data.find(
-                      (account) => account.name === filterCategory!
+                {filterWarehouse
+                  ? warehouses.data!.find(
+                      (account) => account.name === filterWarehouse!
                     )!.name
-                  : "Kategori"}
+                  : "Warehouse"}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
@@ -416,110 +270,16 @@ export function DataTable({ data }: { data: Product[] }) {
                 </CommandEmpty>
                 <CommandGroup className=" max-h-80 overflow-auto">
                   <CommandList>
-                    {categories.data.map((account) => (
+                    {warehouses.data!.map((warehouse) => (
                       <CommandItem
-                        value={account.name}
-                        key={account.id}
+                        value={warehouse.name}
+                        key={warehouse.id}
                         onSelect={(value) => {
-                          table.getColumn("Kategori")?.setFilterValue(value);
-                          setOpenCategory(false);
+                          table.getColumn("warehouseId")?.setFilterValue(value);
+                          setOpenWarehouse(false);
                         }}
                       >
-                        {`${account.name}`}
-                      </CommandItem>
-                    ))}
-                  </CommandList>
-                </CommandGroup>
-              </Command>
-            </PopoverContent>
-          </Popover>
-        )}
-        {vendors.data && (
-          <Popover
-            open={openCategory}
-            onOpenChange={setOpenCategory}
-            modal={true}
-          >
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                role="combobox"
-                className={cn(
-                  "w-[180px] justify-between",
-                  filterVendor && "text-muted-foreground"
-                )}
-              >
-                {filterVendor
-                  ? vendors.data.find(
-                      (account) => account.name === filterVendor!
-                    )!.name
-                  : "Kategori"}
-                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-[300px] p-0">
-              <Command>
-                <CommandInput placeholder="Cari..." />
-                <CommandEmpty>
-                  <p>Tidak ditemukan ...</p>
-                </CommandEmpty>
-                <CommandGroup className=" max-h-80 overflow-auto">
-                  <CommandList>
-                    {vendors.data.map((vendor) => (
-                      <CommandItem
-                        value={vendor.name}
-                        key={vendor.id}
-                        onSelect={(value) => {
-                          table.getColumn("vendor.name")?.setFilterValue(value);
-                          setOpenCategory(false);
-                        }}
-                      >
-                        {`${vendor.name}`}
-                      </CommandItem>
-                    ))}
-                  </CommandList>
-                </CommandGroup>
-              </Command>
-            </PopoverContent>
-          </Popover>
-        )}
-        {productTags.data && (
-          <Popover open={openTag} onOpenChange={setOpenTag} modal={true}>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                role="combobox"
-                className={cn(
-                  "w-[180px] justify-between",
-                  filterTag && "text-muted-foreground"
-                )}
-              >
-                {filterTag
-                  ? productTags.data.find(
-                      (account) => account.name === filterTag!
-                    )!.name
-                  : "Kategori"}
-                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-[300px] p-0">
-              <Command>
-                <CommandInput placeholder="Cari..." />
-                <CommandEmpty>
-                  <p>Tidak ditemukan ...</p>
-                </CommandEmpty>
-                <CommandGroup className=" max-h-80 overflow-auto">
-                  <CommandList>
-                    {productTags.data.map((tag) => (
-                      <CommandItem
-                        value={tag.name}
-                        key={tag.id}
-                        onSelect={(value) => {
-                          table.getColumn("tags")?.setFilterValue(value);
-                          setOpenTag(false);
-                        }}
-                      >
-                        {`${tag.name}`}
+                        {`${warehouse.name}`}
                       </CommandItem>
                     ))}
                   </CommandList>
