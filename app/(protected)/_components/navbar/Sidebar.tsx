@@ -6,7 +6,7 @@ import React, { useRef } from "react";
 import { useHover } from "usehooks-ts";
 import SidebarMenu from "./SidebarMenu";
 
-import { BirdIcon, HomeIcon, LogOut, Package } from "lucide-react";
+import { BirdIcon, HomeIcon, LogOut, Package, Warehouse } from "lucide-react";
 
 type Props = {};
 
@@ -40,6 +40,13 @@ export default function Sidebar({}: Props) {
         </SidebarMenu>
         <SidebarMenu showChildren={isHover} Icon={Package} href="/products">
           Product
+        </SidebarMenu>
+        <SidebarMenu
+          showChildren={isHover}
+          Icon={Warehouse}
+          href="/inventories"
+        >
+          Inventory
         </SidebarMenu>
       </header>
 
