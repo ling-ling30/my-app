@@ -37,6 +37,7 @@ export const TagSchema = z.object({
 export const WarehouseSchema = z.object({
   name: z.string(),
   description: z.string().optional(),
+  isMain: z.boolean(),
 });
 
 export const CreateInventorySchema = z.object({
@@ -45,5 +46,22 @@ export const CreateInventorySchema = z.object({
   quantity: z.string(),
   location: z.string().optional(),
   expiryDate: z.string().optional(),
+  note: z.string().optional(),
+});
+
+export const CreateInventoryTransactionSchema = z.object({
+  inventoryDetailId: z.string(),
+  status: z.enum(["AVAILABLE", "RESERVED", "IN_TRANSIT", "DAMAGED"]),
+  transactionType: z.enum([
+    "PURCHASE",
+    "SALE",
+    "ADJUSTMENT",
+    "TRANSFER",
+    "INITIAL",
+  ]),
+  quantity: z.string(),
+  unitPrice: z.string(),
+  transactionDate: z.string(),
+  referenceId: z.string().optional(),
   note: z.string().optional(),
 });

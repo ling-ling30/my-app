@@ -24,6 +24,15 @@ type Product = {
   salesOrderItems: SalesOrderItem[];
 };
 
+type TransactionType =
+  | "PURCHASE"
+  | "SALE"
+  | "ADJUSTMENT"
+  | "TRANSFER"
+  | "INITIAL";
+type InventoryStatus = "AVAILABLE" | "RESERVED" | "IN_TRANSIT" | "DAMAGED";
+type OrderStatus = "PENDING" | "RECEIVED" | "CANCELLED";
+
 type Photo = {
   id: string;
   url: string;

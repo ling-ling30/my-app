@@ -39,7 +39,7 @@ export default function PhotoCarousel({ data, className }: Props) {
     <>
       <div
         className={cn(
-          "p-4 flex justify-center flex-col items-center",
+          "p-4 flex justify-center flex-col items-center min-w-[150px]",
           className
         )}
       >

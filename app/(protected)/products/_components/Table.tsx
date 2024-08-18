@@ -118,12 +118,10 @@ export const columns: ColumnDef<Product>[] = [
     header: "Name",
     cell: ({ row }) => (
       <div className="">
-        <a>
-          <Link href={`/products/${row.original.id}`}>
-            <span className="sr-only">Open product</span>
-            <EyeIcon className="h-4 w-4" />
-          </Link>
-        </a>
+        <Link href={`/products/${row.original.id}`}>
+          <span className="sr-only">Open product</span>
+          <EyeIcon className="h-4 w-4" />
+        </Link>
         {row.getValue("name")}
       </div>
     ),
@@ -179,7 +177,7 @@ export const columns: ColumnDef<Product>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Tag
+          Tags
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -367,7 +365,7 @@ export function DataTable({ data }: { data: Product[] }) {
     ?.getFilterValue() as string;
   const filterVendor = table.getColumn("Vendor")?.getFilterValue() as string;
 
-  const filterTag = table.getColumn("Tag")?.getFilterValue() as string;
+  const filterTag = table.getColumn("Tags")?.getFilterValue() as string;
 
   return (
     <div className="w-full">
@@ -515,7 +513,7 @@ export function DataTable({ data }: { data: Product[] }) {
                         value={tag.name}
                         key={tag.id}
                         onSelect={(value) => {
-                          table.getColumn("tags")?.setFilterValue(value);
+                          table.getColumn("Tags")?.setFilterValue(value);
                           setOpenTag(false);
                         }}
                       >
@@ -556,7 +554,7 @@ export function DataTable({ data }: { data: Product[] }) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md border max-[500px]:w-[250px]">
+      <div className="rounded-md border max-[500px]:w-full">
         <Table className="overflow-y-auto relative  ">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

@@ -12,11 +12,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { TrashIcon } from "lucide-react";
-import { WarehouseSchema } from "@/constant/schema";
-import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
+import { VendorSchema } from "@/constant/schema";
 
-type FormValues = z.input<typeof WarehouseSchema>;
+type FormValues = z.input<typeof VendorSchema>;
 
 type Props = {
   id?: string;
@@ -26,7 +24,7 @@ type Props = {
   disabled?: boolean;
 };
 
-export default function WarehouseForm({
+export default function VendorForm({
   id,
   defaultValues,
   onSubmit,
@@ -34,7 +32,7 @@ export default function WarehouseForm({
   disabled,
 }: Props) {
   const form = useForm<FormValues>({
-    resolver: zodResolver(WarehouseSchema),
+    resolver: zodResolver(VendorSchema),
     defaultValues: defaultValues,
   });
 
@@ -58,44 +56,49 @@ export default function WarehouseForm({
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input {...field} disabled={disabled} placeholder="Name" />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          name="description"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Desciption</FormLabel>
-              <FormControl>
-                <Textarea
+                <Input
                   {...field}
                   disabled={disabled}
-                  placeholder="Description e.g. address, phone number"
+                  placeholder="e.g. Gearbox, Timisbelt"
                 />
               </FormControl>
             </FormItem>
           )}
         />
         <FormField
-          name="isMain"
+          name="address"
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <div className="flex max-w-xs justify-between">
-                <FormLabel>Set as Main</FormLabel>
-                <FormControl>
-                  <Switch checked={field.value} onChange={field.onChange} />
-                </FormControl>
-              </div>
+              <FormLabel>Address</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  disabled={disabled}
+                  placeholder="e.g. Jln. Merdeka, Jakarta Selatan"
+                />
+              </FormControl>
             </FormItem>
           )}
         />
-
+        <FormField
+          name="telephone"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Telephone</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  disabled={disabled}
+                  placeholder="e.g.08577717171"
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
         <Button className="w-full" disabled={disabled}>
-          {id ? "Save Changes" : "Create Warehouse"}
+          {id ? "Save Changes" : "Create Vendor"}
         </Button>
         {!!id && (
           <Button
@@ -106,7 +109,7 @@ export default function WarehouseForm({
             variant={"outline"}
           >
             <TrashIcon className="size-4" />
-            <p className="ml-2">Delete Warehouse</p>
+            <p className="ml-2">Delete Vendor</p>
           </Button>
         )}
       </form>

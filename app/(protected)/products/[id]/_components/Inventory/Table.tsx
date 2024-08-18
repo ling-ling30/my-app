@@ -316,7 +316,7 @@ export function DataTable({ data }: { data: InventoryDetail[] }) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md border max-[500px]:w-[250px]">
+      <div className="rounded-md border max-[500px]:w-full">
         <Table className="overflow-y-auto relative  ">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

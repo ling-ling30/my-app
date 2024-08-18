@@ -3,7 +3,7 @@ import { fetcherServer } from "@/utils/fetcherServer";
 import { useParams } from "next/navigation";
 import React from "react";
 import PhotoCarousel from "./_components/PhotoCarousel";
-import LabelData from "./_components/LabelData";
+import LabelData from "@/components/ui/LabelData";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import InventoryDetails from "./_components/Inventory/InventoryDetails";
@@ -18,13 +18,12 @@ type Props = {
 export default async function Page({ params }: Props) {
   const id = params.id;
   const res = await fetcherServer(`${product_url}/${id}`);
-  console.log(res);
   const data: Product = res.data;
   return (
     <main className="p-2">
       <section className="flex border flex-wrap p-4">
         <PhotoCarousel className="flex-1" data={data.photos} />
-        <div className="p-4 w-full border max-w-[800px]">
+        <div className="p-4 w-full border max-w-[800px] bg-white shadow-sm rounded-lg">
           <LabelData label="Name">{data.name}</LabelData>
           <LabelData label="SKU">{data.SKU}</LabelData>
           <LabelData label="Description">{data.description}</LabelData>
@@ -48,7 +47,7 @@ export default async function Page({ params }: Props) {
           <LabelData label="MOQ Price">{data.bulkPrice}</LabelData>
         </div>
       </section>
-      <section className="border p-4">
+      <section className="border p-4 m-4 bg-white shadow-sm rounded-lg">
         <header className="flex space-x-2">
           <Link href={`/products/${id}/add`}>
             <Button>

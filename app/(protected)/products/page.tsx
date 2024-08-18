@@ -19,12 +19,12 @@ export default function Page({}: Props) {
     return <div>Loading...</div>;
   }
   return (
-    <main className="p-5">
+    <main className="">
       {data && (
-        <>
-          {/* <ProductList data={data} /> */}
+        <section className="p-4 bg-white shadow-sm border m-4 rounded-lg space-y-4">
+          <h1 className="text-2xl font-bold">Products</h1>
           <DataTable data={data} />
-        </>
+        </section>
       )}
     </main>
   );
