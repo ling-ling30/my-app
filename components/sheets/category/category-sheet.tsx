@@ -20,7 +20,6 @@ export const NewCategorySheet = () => {
   const mutation = usePostData("categories", category_url, onClose);
   const onSubmit = (values: z.infer<typeof CategorySchema>) => {
     const result = mutation.mutate(values as any);
-    console.log(result);
   };
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>

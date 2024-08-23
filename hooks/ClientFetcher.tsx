@@ -36,18 +36,27 @@ export const usePostData = <T, TError, TVariable>(
 ) => {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation<ResponseType, Error, TVariable>({
-    mutationFn: async (json: any) => {
+  const mutation = useMutation<
+    { success: boolean; message: string; data: T },
+    TError,
+    TVariable
+  >({
+    mutationFn: async (json) => {
       const res = await poster(url, json);
       return await res.json();
     },
-    onSuccess: () => {
-      toast.success("Created");
+    onSuccess: (data) => {
+      if (data.success) {
+        toast.success("Created");
+        queryClient.invalidateQueries({ queryKey: [key] });
+        if (callback) {
+          callback();
+        }
+      } else {
+        toast.error(data.message);
+      }
 
       queryClient.invalidateQueries({ queryKey: [key] });
-      if (callback) {
-        callback();
-      }
 
       return;
     },

@@ -51,10 +51,12 @@ export default function InventoryForm({}: Props) {
   const params = useParams();
   const router = useRouter();
   const productId = params.id as string;
-  const { mutate, isPending } = usePostData(
-    INVENTORY_DETAIL_QUERY_KEY,
-    inventory_detail_url,
-    () => router.push(`/products/${productId}`)
+  const { mutate, isPending } = usePostData<
+    InventoryDetail,
+    Error,
+    z.infer<typeof CreateInventorySchema>
+  >(INVENTORY_DETAIL_QUERY_KEY, inventory_detail_url, () =>
+    router.push(`/products/${productId}`)
   );
 
   const form = useForm<FormValues>({
@@ -66,7 +68,7 @@ export default function InventoryForm({}: Props) {
 
   const onSubmit = (values: z.infer<typeof CreateInventorySchema>) => {
     startTransition(async () => {
-      const result = mutate(values as any);
+      const result = mutate(values);
     });
   };
 

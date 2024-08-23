@@ -5,3 +5,4 @@ export const VENDOR_QUERY_KEY = "vendors";
 export const PRODUCT_TAG_QUERY_KEY = "product-tags";
 export const CATEGORY_QUERY_KEY = "categories";
 export const INVENTORY_DETAIL_QUERY_KEY = "inventory-details";
+export const INVENTORY_TRANSACTION_QUERY_KEY = "inventory-transactions";

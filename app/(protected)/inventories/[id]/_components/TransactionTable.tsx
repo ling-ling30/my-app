@@ -43,6 +43,7 @@ import {
   SelectItem,
   SelectTrigger,
 } from "@/components/ui/select";
+import { SelectValue } from "@radix-ui/react-select";
 
 export const columns: ColumnDef<InventoryTransaction>[] = [
   {
@@ -192,9 +193,6 @@ export function DataTable({ data }: { data: InventoryTransaction[] }) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
-  const [openTransactionType, setOpenTransactionType] = useState(false);
-  const [openInventoryStatus, setOpenInventoryStatus] = useState(false);
-
   const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
@@ -259,9 +257,13 @@ export function DataTable({ data }: { data: InventoryTransaction[] }) {
           className="max-w-sm"
         />
 
-        <Select>
-          <SelectTrigger className="w-fit">
-            <div className="px-2 font-medium w-[100px]">Type</div>
+        <Select
+          onValueChange={(value) => {
+            table.getColumn("Type")?.setFilterValue(value);
+          }}
+        >
+          <SelectTrigger className="w-[150px]">
+            <SelectValue placeholder="Type" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="PURCHASE">PURCHASE</SelectItem>
@@ -272,9 +274,13 @@ export function DataTable({ data }: { data: InventoryTransaction[] }) {
           </SelectContent>
         </Select>
 
-        <Select>
-          <SelectTrigger className="w-fit">
-            <div className="px-2 font-medium w-[100px]">Status</div>
+        <Select
+          onValueChange={(value) => {
+            table.getColumn("Status")?.setFilterValue(value);
+          }}
+        >
+          <SelectTrigger className="w-[150px]">
+            <SelectValue placeholder="Status" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="AVAILABLE">AVAILABLE</SelectItem>
